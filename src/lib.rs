@@ -1,6 +1,12 @@
-trait Output<T> {
-    fn render(&self) -> T {}
-    fn calculate_save_location(&self) -> T {}
+pub mod markdown;
+pub mod html;
+
+trait Convert<T> {
+    fn convert(&self) -> T {}
+}
+
+trait SavePage {
+    fn compute_output(&self) -> String {}
 }
 
 #[cfg(test)]
