@@ -9,6 +9,7 @@ trait SavePage {
     fn compute_output(&self) -> String {}
 }
 
+
 #[cfg(test)]
 mod tests {
     #[test]
