@@ -1,23 +1,24 @@
-use tera::{Context, Tera};
-
-use super::SavePage;
+use std::convert::From;
+use super::markdown::MarkdownPage;
+use comrak::{markdown_to_html, ComrakOptions};
 
 pub struct HTMLPage {
-    body: String,
-    template_location: String,
+    content: String,
+    save_location: String,
 }
 
-impl SavePage for HTMLPage {
-    fn compute_output(&self) -> String {
-        let mut tera = match Tera::new(&self.template_location) {
-            Ok(t) => {}
-            Err(e) => {
-                panic!(e)
-                ::std::process::exit(1)
+impl From<MarkdownPage> for HTMLPage {
+    fn from(markdown: MarkdownPage) -> Self {
+        let html = markdown_to_html(&markdown.content, &ComrakOptions);
+        let save_location = match markdown.frontmatter.get("save_location") {
+            Some(location) => String::from(location),
+            None => {
+                panic!("A markdown file is badly formatted.");
             }
         };
-        let mut context = Context::new();
-        context.insert("body", &self.body);
-        return tera.render(&self.template_location, &context);
+        return HTMLPage {
+            content: html,
+            save_location,
+        };
     }
 }
