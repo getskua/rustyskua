@@ -1,10 +1,15 @@
-use super::raw::Raw;
+use super::raw::{RawInput, RawOutput};
 use std::collections::HashMap;
-use comrak::markdown_to_html;
 use std::str::Chars;
 use regex::Regex;
+use crate::collection::Collection;
+use std::thread;
+use lazy_static::lazy_static;
 
-const FRONTMATTER_REGEX: Regex = Regex::new(r"[:;]").unwrap();
+lazy_static! {
+    static ref FRONTMATTER_REGEX: Regex = Regex::new(r"[:;]").unwrap();
+}
+
 
 fn parse(markdown_string: &str) -> (HashMap<String, String>, String) {
     let split_file: Vec<&str> = markdown_string.split("---").collect();
@@ -26,12 +31,23 @@ pub struct MarkdownPage {
     pub frontmatter: HashMap<String, String>,
 }
 
-impl From<Raw> for MarkdownPage {
-    fn from(raw: Raw) -> Self {
+impl From<RawInput> for MarkdownPage {
+    fn from(raw: RawInput) -> Self {
         let (frontmatter, markdown) = parse(&raw.content);
         return MarkdownPage {
             content: markdown,
             frontmatter,
+        };
+    }
+}
+
+impl Into<Collection<RawOutput>> for Collection<MarkdownPage> {
+    fn into(self) -> Collection<RawOutput> {
+        return Collection {
+            members: vec![RawOutput {
+                content: String::from("Not implemented."),
+                save_location: String::from("index.html"),
+            }]
         };
     }
 }

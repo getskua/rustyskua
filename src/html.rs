@@ -9,7 +9,7 @@ pub struct HTMLPage {
 
 impl From<MarkdownPage> for HTMLPage {
     fn from(markdown: MarkdownPage) -> Self {
-        let html = markdown_to_html(&markdown.content, &ComrakOptions);
+        let html = markdown_to_html(&markdown.content, &ComrakOptions::default());
         let save_location = match markdown.frontmatter.get("save_location") {
             Some(location) => String::from(location),
             None => {
