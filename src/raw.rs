@@ -15,17 +15,3 @@ impl RawInput {
         }
     }
 }
-
-pub struct RawOutput {
-    pub content: String,
-    pub save_location: String,
-}
-
-impl RawOutput {
-    pub fn new(content: String, save_location: String) -> RawOutput {
-        RawOutput {
-            content,
-            save_location,
-        }
-    }
-}
