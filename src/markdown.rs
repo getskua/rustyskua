@@ -20,7 +20,7 @@ impl Loc {
 }
 
 pub struct Frontmatter {
-    values: HashMap<String, String>;
+    values: HashMap<String, String>
 }
 
 impl Frontmatter {
