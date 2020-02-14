@@ -85,5 +85,6 @@ impl Frontmatter {
 }
 
 pub struct MarkdownPage {
+    pub frontmatter: Frontmatter,
     pub content: String,
 }
